@@ -13,43 +13,37 @@ const EditarProducto = ({ history }) => {
   const [bran, setBrand] = useState(brand);
   const [image, setImage] = useState("");
 
-  const convertBase64 = (image) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(image);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
 
   const uploadFile = async (e) => {
     const imageFile = e;
-    const base64 = await convertBase64(imageFile);
-    setImage(base64);
+    setImage(imageFile);
   };
 
   const handleEdit = (e) => {
     e.preventDefault();
 
-    const newArticle = {
-      product_id: _id,
-      name: nam,
-      brand: bran,
-      price: parseFloat(preci),
-      stock: parseInt(stoc),
-      data: image,
-    };
+    const datan = new FormData();
+    datan.append("product_id", _id);
+    datan.append("name", nam);
+    datan.append("brand", bran);
+    datan.append("stock", parseInt(stoc));
+    datan.append("price", parseFloat(preci));
+    datan.append("file", image);
 
-    console.log(newArticle);
+    // const newArticle = {
+    //   product_id: _id,
+    //   name: nam,
+    //   brand: bran,
+    //   price: parseFloat(preci),
+    //   stock: parseInt(stoc),
+    //   data: image,
+    // };
+
+    // console.log(newArticle);
 
     axios
-      .put(`https://laboratorio9.herokuapp.com/api/v1/update-product`, newArticle)
+      .put(`http://localhost:5000/api/v1/update-product`, datan)
       .then((e) => {
         console.log(e);
         history.push("/");

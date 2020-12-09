@@ -9,7 +9,7 @@ export const Productos = () => {
 
     const getArticles =  useCallback(async () => {
         
-        await axios.get('https://laboratorio9.herokuapp.com/api/v1/get-product').then(({data}) => {
+        await axios.get('http://localhost:5000/api/v1/get-product').then(({data}) => {
             // console.log(data.data)
             setArticles(data.data)
         }).catch((e) => {
@@ -25,7 +25,7 @@ export const Productos = () => {
     const handleDelete = (id) => {
         console.log(id)
         
-        axios.delete(`https://laboratorio9.herokuapp.com/api/v1/delete-product/${id}`).then((e) => {
+        axios.delete(`http://localhost:5000/api/v1/delete-product/${id}`).then((e) => {
             console.log(e)
             getArticles();
         }).catch((e) => {

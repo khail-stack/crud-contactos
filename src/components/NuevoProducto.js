@@ -9,42 +9,23 @@ const NuevoProducto = ({history}) => {
     const [stock, setStock] = useState('');
     const [image, setImage] = useState('');
 
-    const convertBase64 = (image) => {
-        return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(image);
-
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-        });
-    };
-
     const uploadFile = async (e) => {
         const imageFile = e;
-        const base64 = await convertBase64(imageFile);
-        setImage(base64);
+        setImage(imageFile);
     };
 
     const handleAdd = (e) => {
     e.preventDefault();
 
-    const productos = {
-      name: name,
-      brand: brand,
-      stock: parseInt(stock),
-      price: parseFloat(precio),
-      data: image
-    };
-
-    console.log(productos);
+    const datan = new FormData();
+    datan.append("name", name);
+    datan.append("brand", brand);
+    datan.append("stock", parseInt(stock));
+    datan.append("price", parseFloat(precio));
+    datan.append("file", image);
 
     axios
-      .post('https://laboratorio9.herokuapp.com/api/v1/create-product', productos)
+      .post('http://localhost:5000/api/v1/create-product', datan)
       .then((e) => {
         console.log(e);
         history.push('/');
